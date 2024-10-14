@@ -18,12 +18,14 @@ class State {
   handleMouseClick(event) { }
   handleMouseMove(event) { }
 }
+
 class IdleState extends State {
   handleMouseClick(event) {
       createLine(event);
       currentState = States.DRAWING;
   }
 }
+
 class DrawingState extends State {
   handleMouseMove(event) {
       setLastPoint(event);

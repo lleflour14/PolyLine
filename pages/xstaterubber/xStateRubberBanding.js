@@ -25,18 +25,16 @@ let rubber;
 
 const rubberBandingMachine = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QCcCuAjdZkCECGAdhAJYFQB0xEANmAMQCyA8gKoDKAogMIAyAklwDSAbQAMAXUSgADgHtYxAC7FZBKSAAeiAIwBmUeQBsAFgCsADgBMow9oDshu6bvmANCACeOu3fKnj2oamlo4AnMbGurqGAL4x7miY2PhEpBQQyHgA7mmMrJzMAGocYpJIIHIKyqrqWgjGoqbk4aF6xlaGnaKB7l4I5rrNrbqWraG62trBunEJGFi4hCRk5BnZuczs3PxCpeqVSipq5XXaoeSBxnbWdqGGuhGtvYgDQ3qjZxNTlqZx8SAEWQQODqRILFLLKD7eSHGonRAAWkmhnIlj0oUsEVEtwsoTcnkRg1MonMnVCLkMNgmolCsxAYOSSzSlBoYGhVSOtURhnMqPRmIaOPMeOeCGsvLuXTsAXsokxsX+DMWqRWaxyZHZsOOoDqXwulL0UVs5kuousgxGJuR7VMplCzj+MSAA */
+    /** @xstate-layout N4IgpgJg5mDOIC5QCcCuAjdZkCECGAdhAJYFQB0EyeA7qVAMQCyA8gKoDKAoqwGpcBtAAwBdRKAAOAe1jEALsSkFxIAB6IALEICs5AJwa9ARgDMGgBwAmAGy2hR6wBoQAT0TmT+4ycvG9JoyNtSxMAX1DnNExsfCJ6Smo6MmZ2bgBhABkASTSAaWExJBBpWQUlFXUEIz1yBw0Adksher1rM0MjZzcEDy9TX2qAoMttcMiMLFxCEjJyYggAGzAGLgA3MAI5AAIjApUS+UVlIsrtDX1zayFLn2v66z1LLsRLIyFyV7t6o0sLbW0jOEIiACFIIHAVFFJrEZlB9jJDuUTogALSBawfUyPDRaFracx6czPBAozwma62Az4nx6epCMLAqExabxeZLeGlI4VVHWcyYkzY3F6fGE4lNPmtL4aQJ037WMYgJlTOKzKi0egcxHHUCVIa1K6mEwmaxGcx1MX08g+M3ov7aYX1IGhIA */
     id: "rubberBanding",
     initial: "idle",
     states: {
       idle: {
         on: {
-          MOUSECLICK: {
-            target: "drawing",
-            actions: ["createLine"],
-          },
-        },
+          "Event 1": "drawing"
+        }
       },
+
       drawing: {
         on: {
           MOUSEMOVE: {
@@ -46,8 +44,8 @@ const rubberBandingMachine = createMachine(
             target: "idle",
             actions: ["saveLine"],
           },
-        },
-      },
+        }
+      }
     },
   },
   {

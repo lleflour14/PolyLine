@@ -16,16 +16,86 @@ let polyline // La polyline en cours de construction;
 
 const polylineMachine = createMachine(
     {
-        /** @xstate-layout N4IgpgJg5mDOIC5gF8A0IB2B7CdGgAcsAbATwBkBLDMfEI2SgF0qwzoA9EBaANnVI9eAOgAM4iZMkB2ZGnokK1MMMoRitJAsYs2nRABYATAMQAOAIzCD0gJwXetgwGZezgw9ty5QA */
+        /** @xstate-layout N4IgpgJg5mDOIC5QAcD2AbAngGQJYDswA6XCdMAYgFkB5AVQGUBRAYWwEkWBpAbQAYAuohSpYuAC65U+YSAAeiAOwBGAMxEATKsUAWAJw7VevgDYdhgDQhMiZYoAcRAKz3Vbp6r46+y5ffsAvgFWaFh4hEQAYuwASgwAKgAKNOwAcvHU9My0AGpM-EJIIGhiktKyCgj2KkQmGvr2BhpOiibaVjYI9TpEbn1OTsb2g35BIRg4BMTRcUkp6ZmMrBzcBbIlElIyRZUq6lq6Bkam5qodiDomJkR8far2dar1TjqKY8UT4cQ08QASTDFkmkMrQlrl8oJ1qJNuUdrZfEQdPZlM89CjGnw9PZzghtI4+HxXNodBpmvZzO9QpMIj9-oD5hkAEIAQW4DESrIhhREpS2FQuGhuBOFIuFOhxGmRzhcbh0yluqichNUlM+UyItIBQIWLLZHJY+WU3I+vNhoEqisFhkOg0UPhMijcOKegs8RJMejadWqqrC6s19OBFCYDBYzMSXKhpu25sQlsRxL0tvtjrO1lsikUREUSoJyj0dodwx0vup3z+WoZwfSALWRQ2ZRj8jjTitieTygdTvTVWUmj0A6xJicynM+g0pa+GorgYWoOYbE4vEh9ehjf5CEdiNM9STTx8XicOL8TiI8qJfAccrsE-e+FQEDgUL9hCjMKblQAtC4z-dCfoWj0VRhxxT9rlFQYNAJAxFCAyd1VIcg33XOEEBMPhBTaXRGicOornsDRjyAogC1zbwURzckTHgiIZgSbV4mQvlUOqPRemReplEGYwvD0Z0dFPBw+kaeVMQ0TMaPLOkGKYs1mwQT95V-ex-yTWDgP0PiexeLN82aHNDBUq5qKCAIgA */
+        context: {},
         id: "polyLine",
         initial: "idle",
-        states : {
-            idle: {
-            }
-        }
-    },
-    // Quelques actions et guardes que vous pouvez utiliser dans votre machine
-    {
+        states: {
+          idle: {
+            on: {
+              MOUSECLICK: {
+                target: "FIRSTPOINT",
+                actions: "createLine",
+                
+              },
+            },
+          },
+          "FIRSTPOINT": {
+            on: {
+              MOUSEMOVE: {
+                target: "FIRSTPOINT",
+                actions: "setLastPoint",
+              },
+              MOUSECLICK: {
+                target: "OTHERPOINT",
+                actions:  "addPoint",
+                },
+              },
+              ESCAPE: {
+                target: "idle",
+                actions:  "abandon",
+                },
+              },
+        
+          "OTHERPOINT": {
+            on: {
+              MOUSEMOVE: {
+                target: "OTHERPOINT",
+                actions:  "setLastPoint",
+              },
+              BACKSPACE: [
+                {
+                  target: "OTHERPOINT",
+                  actions: 
+                    "removeLastPoint",
+                 
+                  guard: 
+                   "plusDeDeuxPoints",
+                
+                },
+                {
+                  target: "FIRSTPOINT",
+                  actions: 
+                  "removeLastPoint",
+                  
+                },
+              ],
+              ESCAPE: {
+                target: "idle",
+                actions: 
+                 "abandon",
+       
+              },
+              ENTER: {
+                target: "idle",
+                actions: 
+                 "saveLine",
+               
+              },
+              MOUSECLICK: {
+                target: "OTHERPOINT",
+                actions: 
+                   "addPoint",
+               
+                guard: 
+                 "pasPlein",
+              
+              },
+            },
+          },
+        },
+    
+    },{
         actions: {
             // Créer une nouvelle polyline
             createLine: (context, event) => {

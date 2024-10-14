@@ -6,8 +6,10 @@ const stage = new Konva.Stage({
   width: 400,
   height: 400
 });
+
 // Une couche pour la ligne en cours de dessin (il peut y en avoir plusieurs)
 const temporaire = new Konva.Layer();
+
 // Une couche pour les lignes déjà dessinées
 const dessin = new Konva.Layer();
 stage.add(dessin);
